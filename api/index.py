@@ -6,7 +6,25 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 
 TEMPLATE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), 'template'))
+SERVER_DIR = os.path.abspath(os.path.dirname(__file__))
 app.template_folder = TEMPLATE_DIR
+
+@app.before_first_request
+def create_database():
+    # 檢查資料庫檔案是否已存在
+    if not os.path.exists(f'{SERVER_DIR}/data/database.db'):
+        # 建立資料庫
+        conn = sqlite3.connect(f'{SERVER_DIR}/data/database.db')
+        # 在資料庫中創建表格
+        c = conn.cursor()
+        c.execute('''CREATE TABLE users
+                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                      name TEXT NOT NULL,
+                      email TEXT NOT NULL,
+                      age INTEGER NOT NULL)''')
+        # 關閉資料庫連接
+        conn.close()
+
 
 # domain root
 @app.route('/')
