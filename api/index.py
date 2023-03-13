@@ -10,9 +10,13 @@ app.config['DEBUG'] = True
 def home():
     return 'Hello, World!0418'
 
-@app.route("checkPath")
+@app.route("/checkPath")
 def checkPath():
-    current_path = os.path.abspath('.')
+    try:
+        current_path = os.path.abspath('.')
+        return current_path
+    except Exception as e:
+        return f"發生錯誤: {str(e)}"
     return current_path
 
 @app.route("/qrScan")
