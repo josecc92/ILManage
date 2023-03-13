@@ -13,7 +13,39 @@ def home():
 @app.route("/qrScan")
 def qrScan():
     try:
-        return render_template("/api/template/qrScan.html")
+        return """
+        <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>QR Code Scanner</title>
+</head>
+<body>
+    <h1>QR Code Scanner</h1>
+    <video id="video" width="300" height="300"></video>
+    <button id="scanBtn">Scan QR Code</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.3"></script>
+    <script>
+        let video = document.getElementById("video");
+        let scanBtn = document.getElementById("scanBtn");
+
+        const codeReader = new ZXing.BrowserQRCodeReader();
+
+        function scanQRCode() {
+            codeReader.decodeFromVideoDevice(null, 'video', (result, error) => {
+                if (result) {
+                    alert(result.text);
+                } else {
+                    console.error(error);
+                }
+            });
+        }
+
+        scanBtn.addEventListener("click", scanQRCode);
+    </script>
+</body>
+</html>"""
     except Exception as e:
         return f"發生錯誤: {str(e)}"
     return
