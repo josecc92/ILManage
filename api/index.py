@@ -13,12 +13,6 @@ def home():
 @app.route("checkPath")
 def checkPath():
     current_path = os.path.abspath('.')
-    filename = 'qrScan.html'
-    path = os.path.join(os.getcwd(), filename)
-    if os.path.exists(path):
-        current_path = current_path + f' The file {filename} exists in the current directory!'
-    else:
-        current_path = current_path + f' The file {filename} does not exist in the current directory.'
     return current_path
 
 @app.route("/qrScan")
