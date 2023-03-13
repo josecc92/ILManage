@@ -3,3 +3,4 @@ line-bot-sdk
 openai
 requests
 beautifulsoup4
+sqlite3
