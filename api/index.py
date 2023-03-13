@@ -5,18 +5,22 @@ import os
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
+TEMPLATE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), 'template'))
+app.template_folder = TEMPLATE_DIR
+
 # domain root
 @app.route('/')
 def home():
     return 'Hello, World!0418'
 
-@app.route("/checkPath")
-def checkPath():
+
+
+@app.route("/qrS")
+def qrS():
     try:
-        current_path = os.path.abspath('.')
-        return current_path
+        return render_template('qrScan.html')
     except Exception as e:
-        return f"發生錯誤: {str(e)}"
+        return f"發生錯誤: {str(e)}, path:{app.template_folder}"
     return current_path
 
 @app.route("/qrScan")
